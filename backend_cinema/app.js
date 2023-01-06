@@ -64,4 +64,27 @@ app.put('/reserve/:seat', (req, res) => {
     })
 })
 
+app.delete('/reservations', (req, res) => {
+    fs.readFile('./data.json', (err, data) => {
+        if (err) {
+            res.status(500).send('could not read file')
+        }
+        const reservations = JSON.parse(data)
+        console.log('pre-delete', reservations)
+
+        while (reservations.length > 0) {
+            reservations.pop()
+        }
+        console.log('deleted from array', reservations)
+        fs.writeFile('./data.json', JSON.stringify(reservations), (err) => {
+            if (err) {
+                return res.status(500).send('could not delete reservations.')
+            }
+        })
+        console.log('post-delete', reservations)
+        return res.json(reservations)
+    })
+
+})
+
 app.listen(PORT, () => console.log('running on port', PORT))
