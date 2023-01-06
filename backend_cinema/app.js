@@ -45,7 +45,7 @@ app.get('/reservations', (req, res) => {
 app.put('/reserve/:seat', (req, res) => {
     const reserved = req.body.reserved
     const seat = req.params.seat
-    // const resID = req.body.resID
+    let myid = req.body.myid
 
     fs.readFile('./data.json', (err, data) => {
         if (err) {
@@ -55,9 +55,15 @@ app.put('/reserve/:seat', (req, res) => {
         const reservations = JSON.parse(data)
         const index = reservations.findIndex((reservation) => reservation.seat === seat)
 
-        if (reserved !== undefined) {
+        if (reserved === true) {
             reservations[index].reserved = reserved
-            // resID = uid()
+            reservations[index].myid = uid()
+            console.log(reservations[index].myid)
+        }
+
+        if (reserved === false) {
+            reservations[index].reserved = reserved
+            reservations[index].myid = null
         }
 
         fs.writeFile('./data.json', JSON.stringify(reservations), (err) => {
@@ -106,7 +112,7 @@ app.post('/api/ownermail', (req, res) => {
         from: 'thisproject@me.com',
         to: 'owner@cinema.com',
         subject: 'new reservation received',
-        text: `Hallo du wunderbarer Mensch, du hast gerade wieder ${req.body.price} Umsatz gemacht.Lass die Korken knallen.`,
+        text: `Cheers, you have just made another ${req.body.price} €.`,
         html: `<p style="color:purple;">${req.body.text}</p>`
     }
 
