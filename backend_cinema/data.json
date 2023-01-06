@@ -1,0 +1,14 @@
+[
+    {
+        "reserved": false,
+        "priceClass": "a",
+        "seat": "1a",
+        "id": "dd3905b5ff4"
+    },
+    {
+        "reserved": true,
+        "priceClass": "a",
+        "seat": "1b",
+        "id": "62570be1167"
+    }
+]
