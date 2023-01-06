@@ -14,6 +14,23 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use('/public', express.static('./public'))
 
+app.get('/empty', (req, res) => {
+    fs.readFile('./starterData.json', (err, data) => {
+        if (err) {
+            res.status(500).send('could not read file')
+        }
+        const reservations = JSON.parse(data)
+        console.log(reservations)
+
+        fs.writeFile('./data.json', JSON.stringify(reservations), (err) => {
+            if (err) {
+                return res.status(500).send('could not complete reservation.')
+            }
+        })
+        return res.json(reservations)
+    })
+})
+
 app.get('/reservations', (req, res) => {
     fs.readFile('./data.json', (err, data) => {
         if (err) {
@@ -23,19 +40,6 @@ app.get('/reservations', (req, res) => {
         console.log(reservations)
         return res.json(reservations)
     })
-
-})
-
-app.get('/empty', (req, res) => {
-    fs.readFile('./starterData.json', (err, data) => {
-        if (err) {
-            res.status(500).send('could not read file')
-        }
-        const emptyTheater = JSON.parse(data)
-        console.log(emptyTheater)
-        return res.json(emptyTheater)
-    })
-
 })
 
 app.put('/reserve/:seat', (req, res) => {
