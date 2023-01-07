@@ -1,8 +1,14 @@
+import Seat from "../components/seat/Seat";
 import "./Reserve.css"
 
-const Reserve = () => {
+const Reserve = ({ reservations }) => {
     return (<main>
-        <h1>Reservations</h1>
+        <section className="seatGrid">
+            {reservations.map((reservation, key) => {
+                return <Seat key={key} reservation={reservation} />
+            })}
+        </section>
+        <section className="screen">Screen</section>
     </main>);
 }
 

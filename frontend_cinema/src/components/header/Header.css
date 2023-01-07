@@ -1,0 +1,31 @@
+.headerNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(138, 0, 0);
+}
+
+.headerNav h1,
+.headerNav h2 {
+    color: white;
+}
+
+.navLinks {
+    display: flex;
+    gap: 30px;
+}
+
+.navLinks a {
+    color: white;
+    text-decoration: none;
+}
+
+.navLinks a:hover {
+    text-decoration: underline;
+}
+
+.navLinks .active {
+    text-decoration: underline;
+    color: aqua;
+}

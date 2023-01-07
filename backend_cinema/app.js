@@ -94,9 +94,9 @@ app.delete('/reservations', (req, res) => {
         console.log('pre-delete', reservations)
 
         while (reservations.length > 0) {
-            reservations.pop()
+            reservations.reserved = false
         }
-        console.log('deleted from array', reservations)
+        console.log('reservations reset', reservations)
         fs.writeFile('./data.json', JSON.stringify(reservations), (err) => {
             if (err) {
                 return res.status(500).send('could not delete reservations.')
