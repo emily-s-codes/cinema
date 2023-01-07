@@ -1,0 +1,26 @@
+.homepageMain h2 {
+    text-align: center;
+}
+
+.homeSection {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.homeSection a {
+    display: inline-block;
+    color: white;
+    border: 3px solid white;
+    background-color: darkred;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 0;
+    width: 200px;
+    margin: 10px 0;
+}
+
+.homeSection a:hover {
+    color: pink;
+    text-decoration: underline;
+    border: 3px solid pink;
+}

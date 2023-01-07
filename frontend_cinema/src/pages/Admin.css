@@ -1,4 +1,21 @@
-.onClickP:hover {
+.adminSection {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.onClickP {
+    display: inline-block;
     color: white;
+    border: 3px solid white;
+    background-color: darkred;
+    text-align: center;
+    padding: 10px 0;
+    width: 200px;
+    margin: 10px 0;
+}
+
+.onClickP:hover {
+    color: pink;
     text-decoration: underline;
+    border: 3px solid pink;
 }

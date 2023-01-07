@@ -1,0 +1,27 @@
+.uCMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 50vh;
+}
+
+.uCMain p {
+    color: darkred;
+}
+
+.reactIcons {
+    color: darkred;
+}
+
+.backArrowDiv {
+    border: 2px double white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.backArrowDiv:hover {
+    border: 2px solid pink;
+    border-radius: 50%;
+}

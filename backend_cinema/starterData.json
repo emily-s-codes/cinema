@@ -1,63 +1,33 @@
 [
     {
         "reserved": false,
-        "priceClass": "a",
-        "seat": "1a"
+        "priceClass": "b",
+        "seat": "4a"
     },
     {
         "reserved": false,
-        "priceClass": "a",
-        "seat": "1b"
+        "priceClass": "b",
+        "seat": "4b"
     },
     {
         "reserved": false,
-        "priceClass": "a",
-        "seat": "1c"
+        "priceClass": "b",
+        "seat": "4c"
     },
     {
         "reserved": false,
-        "priceClass": "a",
-        "seat": "1d"
+        "priceClass": "b",
+        "seat": "4d"
     },
     {
         "reserved": false,
-        "priceClass": "a",
-        "seat": "1e"
+        "priceClass": "b",
+        "seat": "4e"
     },
     {
         "reserved": false,
-        "priceClass": "a",
-        "seat": "1f"
-    },
-    {
-        "reserved": false,
-        "priceClass": "a",
-        "seat": "2a"
-    },
-    {
-        "reserved": false,
-        "priceClass": "a",
-        "seat": "2b"
-    },
-    {
-        "reserved": false,
-        "priceClass": "a",
-        "seat": "2c"
-    },
-    {
-        "reserved": false,
-        "priceClass": "a",
-        "seat": "2d"
-    },
-    {
-        "reserved": false,
-        "priceClass": "a",
-        "seat": "2e"
-    },
-    {
-        "reserved": false,
-        "priceClass": "a",
-        "seat": "2f"
+        "priceClass": "b",
+        "seat": "4f"
     },
     {
         "reserved": false,
@@ -91,32 +61,62 @@
     },
     {
         "reserved": false,
-        "priceClass": "b",
-        "seat": "4a"
+        "priceClass": "a",
+        "seat": "2a"
     },
     {
         "reserved": false,
-        "priceClass": "b",
-        "seat": "4b"
+        "priceClass": "a",
+        "seat": "2b"
     },
     {
         "reserved": false,
-        "priceClass": "b",
-        "seat": "4c"
+        "priceClass": "a",
+        "seat": "2c"
     },
     {
         "reserved": false,
-        "priceClass": "b",
-        "seat": "4d"
+        "priceClass": "a",
+        "seat": "2d"
     },
     {
         "reserved": false,
-        "priceClass": "b",
-        "seat": "4e"
+        "priceClass": "a",
+        "seat": "2e"
     },
     {
         "reserved": false,
-        "priceClass": "b",
-        "seat": "4f"
+        "priceClass": "a",
+        "seat": "2f"
+    },
+    {
+        "reserved": false,
+        "priceClass": "a",
+        "seat": "1a"
+    },
+    {
+        "reserved": false,
+        "priceClass": "a",
+        "seat": "1b"
+    },
+    {
+        "reserved": false,
+        "priceClass": "a",
+        "seat": "1c"
+    },
+    {
+        "reserved": false,
+        "priceClass": "a",
+        "seat": "1d"
+    },
+    {
+        "reserved": false,
+        "priceClass": "a",
+        "seat": "1e"
+    },
+    {
+        "reserved": false,
+        "priceClass": "a",
+        "seat": "1f"
     }
 ]

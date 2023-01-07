@@ -40,16 +40,16 @@ app.get('/empty', (_, res) => {
     })
 })
 
-// app.get('/reservations', (_, res) => {
-//     fs.readFile('./data.json', (err, data) => {
-//         if (err) {
-//             res.status(500).send('could not read file')
-//         }
-//         const reservations = JSON.parse(data)
-//         console.log(reservations)
-//         return res.json(reservations)
-//     })
-// })
+app.get('/reservations', (_, res) => {
+    fs.readFile('./data.json', (err, data) => {
+        if (err) {
+            res.status(500).send('could not read file')
+        }
+        const reservations = JSON.parse(data)
+        console.log(reservations)
+        return res.json(reservations)
+    })
+})
 
 app.put('/reserve/:seat', (req, res) => {
     const reserved = req.body.reserved

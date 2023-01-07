@@ -1,0 +1,52 @@
+.seatDiv {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+.a {
+    background-color: blue;
+    border: 3px solid white;
+    color: white;
+    padding: 5px;
+}
+
+.a:hover {
+    border: 3px solid blue;
+}
+
+.b {
+    background-color: green;
+    border: 3px solid white;
+    color: white;
+    padding: 5px;
+}
+
+.b:hover {
+    border: 3px solid green;
+}
+
+.selected {
+    background-color: red;
+    border: 3px solid white;
+    color: white;
+    padding: 5px;
+}
+
+.selected:hover {
+    border: 3px solid red;
+}
+
+.unavailable {
+    background-color: gray;
+    border: 3px solid white;
+    color: white;
+    padding: 5px;
+}
