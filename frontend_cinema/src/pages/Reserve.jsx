@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { json } from "react-router-dom";
 import Seat from "../components/seat/Seat";
 import "./Reserve.css"
 
@@ -17,6 +18,8 @@ const Reserve = ({ reservations, setReservations }) => {
 
     const setupEmail = () => {
         let seats = viewSelected.map((selection) => { return selection.priceClass })
+        let seatsSelection = viewSelected.map((selectedSeat) => selectedSeat.seat)
+        let seatsString = seatsSelection.join(", ")
         let price = 0
         seats.forEach((seat) => {
             if (seat === "b") {
@@ -26,24 +29,25 @@ const Reserve = ({ reservations, setReservations }) => {
                 price += 10
             }
         })
-        sendEmail(price)
+        sendEmail(price, seatsString)
     }
 
-    const sendEmail = (price) => {
-        console.log('sendemail', price)
+    const sendEmail = (price, seatsString) => {
+        console.log('sendemail', price, seatsString)
         fetch('http://localhost:9000/api/ownermail', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/text"
+                "Content-Type": "text/plain"
             },
-            body: price
+            body: JSON.stringify({
+                price,
+                seatsString
+            })
         })
-            .then((res) => res.json())
+            .then((res) => res.text())
             .then((data) => {
-                console.log(data)
                 setEmail(data)
             })
-
         console.log(email)
     }
 
