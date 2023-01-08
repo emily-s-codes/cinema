@@ -12,19 +12,16 @@ const Admin = ({ clearReservations, cleared, setCleared, reservations }) => {
 
     const trueRes = reservations.filter((res) => res.reserved === true)
 
-
     return (
         <main>
-            <h1>admin</h1>
             <section className="adminSection">
                 <section>
-                    <p className="onClickP" onClick={toggleViewCleared}>view all reservations</p>
-                    {view && reservations.map((reservation, key) => {
+                    <p className="onClickP" onClick={toggleViewCleared}>view all reservations {view ? "—" : "+"}</p>
+                    {view && trueRes.map((reservation, key) => {
                         return (<div key={key}>
                             <ViewReservations reservation={reservation} />
                         </div>)
                     })}
-                    {!view && <p>No reservations</p>}
                 </section>
                 <section>
                     <p className="onClickP" onClick={clearReservations}>delete all reservations</p>
@@ -32,7 +29,7 @@ const Admin = ({ clearReservations, cleared, setCleared, reservations }) => {
                 </section>
             </section>
 
-        </main>
+        </main >
     );
 }
 

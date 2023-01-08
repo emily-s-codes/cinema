@@ -118,8 +118,8 @@ app.post('/api/ownermail', (req, res) => {
         from: 'thisproject@me.com',
         to: 'owner@cinema.com',
         subject: 'new reservation received',
-        text: `Cheers, you have just made another ${req.body.price} €.`,
-        html: `<p style="color:purple;">${req.body.text}</p>`
+        text: `Cheers, you have just made another ${req.body.price} €. The following seats are now booked: ${req.body.seatsString}.`,
+        html: `<p>${req.body.text}</p>`
     }
 
     transport.sendMail(message, (err, info) => {
