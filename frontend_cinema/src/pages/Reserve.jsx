@@ -29,8 +29,8 @@ const Reserve = ({ reservations, setReservations }) => {
         sendEmail(price)
     }
 
-    const sendEmail = () => {
-
+    const sendEmail = (price) => {
+        console.log('sendemail', price)
     }
 
     return (<main className="resMain">
