@@ -31,6 +31,20 @@ const Reserve = ({ reservations, setReservations }) => {
 
     const sendEmail = (price) => {
         console.log('sendemail', price)
+        fetch('http://localhost:9000/api/ownermail', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/text"
+            },
+            body: price
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+                setEmail(data)
+            })
+
+        console.log(email)
     }
 
     return (<main className="resMain">
