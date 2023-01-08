@@ -19,7 +19,7 @@ const Admin = ({ clearReservations, cleared, setCleared, reservations }) => {
             <section className="adminSection">
                 <section>
                     <p className="onClickP" onClick={toggleViewCleared}>view all reservations</p>
-                    {view && trueRes.map((reservation, key) => {
+                    {view && reservations.map((reservation, key) => {
                         return (<div key={key}>
                             <ViewReservations reservation={reservation} />
                         </div>)
