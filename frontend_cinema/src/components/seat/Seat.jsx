@@ -2,25 +2,29 @@ import "./Seat.css"
 import { useState } from "react";
 
 const Seat = ({ index, reservation, reservations, setReservations, confirmed }) => {
-    const [updatedSeats, setUpdatedSeats] = useState(false)
-    const [selected, setSelected] = useState(false)
+    const [selected, setSelected] = useState(reservation.reserved)
 
-    const reserveSeat = (seat, reserved) => {
+    const changeHandler = (seat, reserved) => {
         setSelected(!selected)
-        reservation.reserved = !reserved
+        console.log(reservation.seat, !selected, !reserved)
+        editHandler(seat, reserved)
+    }
+
+    const editHandler = (seat, reserved) => {
         fetch(`http://localhost:9000/reserve/${seat}`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                reserved
+                seat,
+                reserved: !reserved
             })
         })
-            .then(res => res.json())
-            .then(data => {
+            .then((res) => res.json())
+            .then((data) => {
                 console.log(data)
-                setUpdatedSeats(data)
+                setReservations(data)
             })
     }
 
@@ -31,8 +35,7 @@ const Seat = ({ index, reservation, reservations, setReservations, confirmed }) 
             <input
                 type="checkbox"
                 checked={reservation.reserved}
-                onChange={() => reserveSeat(reservation.seat, !reservation.reserved)}
-            // onClick={confirmed}
+                onChange={() => changeHandler(reservation.seat, reservation.reserved)}
             >
             </input>
         </label>

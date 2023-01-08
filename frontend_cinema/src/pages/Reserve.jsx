@@ -4,15 +4,17 @@ import "./Reserve.css"
 
 const Reserve = ({ reservations, setReservations }) => {
     const [selection, setSelection] = useState([])
+    const [email, setEmail] = useState("")
+    let viewSelected = reservations.filter(res => {
+        if (res.reserved === true) {
+            return res
+        }
+    })
 
     const confirmed = () => {
-        let viewSelected = reservations.filter(res => { if (res.reserved === true) return res })
         setSelection(viewSelected)
     }
 
-    const checkout = () => {
-        console.log('checkout clicked')
-    }
 
     return (<main className="resMain">
         <section className="selectSection">
@@ -32,14 +34,14 @@ const Reserve = ({ reservations, setReservations }) => {
                 <button onClick={confirmed}>Confirm Selection</button>
                 <div className="selectedDiv">
                     {selection.map((confirmation, key) => {
-                        return (<>
+                        return (
                             <p key={key}>{confirmation.seat}</p>
-                        </>)
+                        )
                     })}
                 </div>
             </div>
             <div className="reservationButtonDiv">
-                <button onClick={checkout}>Checkout</button>
+                <button onClick={confirmed}>Checkout</button>
             </div>
         </section>
     </main >);

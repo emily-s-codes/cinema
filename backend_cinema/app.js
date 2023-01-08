@@ -26,14 +26,6 @@ app.get('/empty', (_, res) => {
             if (err) {
                 return res.status(500).send('could not complete reservation.')
             }
-
-            // fs.readFile('./data.json', (err, data) => {
-            //     if (err) {
-            //         res.status(500).send('could not read file')
-            //     }
-            //     const reservations = JSON.parse(data)
-            //     console.log(reservations)
-            // })
         })
         console.log(reservations)
         return res.json(reservations)
@@ -46,7 +38,7 @@ app.get('/reservations', (_, res) => {
             res.status(500).send('could not read file')
         }
         const reservations = JSON.parse(data)
-        console.log(reservations)
+
         return res.json(reservations)
     })
 })
@@ -67,7 +59,6 @@ app.put('/reserve/:seat', (req, res) => {
         if (reserved === true) {
             reservations[index].reserved = reserved
             reservations[index].myid = uid()
-            console.log(reservations[index].myid)
         }
 
         if (reserved === false) {
@@ -81,6 +72,12 @@ app.put('/reserve/:seat', (req, res) => {
             }
         })
 
+        fs.readFile('./data.json', (err, data) => {
+            if (err) {
+                res.status(500).send('could not read file')
+            }
+        })
+        console.log(reservations)
         return res.json(reservations)
     })
 })
