@@ -15,7 +15,7 @@ const Reserve = ({ reservations, setReservations }) => {
         setSelection(viewSelected)
     }
 
-    const sendEmail = () => {
+    const setupEmail = () => {
         let seats = viewSelected.map((selection) => { return selection.priceClass })
         let price = 0
         seats.forEach((seat) => {
@@ -26,8 +26,11 @@ const Reserve = ({ reservations, setReservations }) => {
                 price += 10
             }
         })
-        console.log(price)
-        return price
+        sendEmail(price)
+    }
+
+    const sendEmail = () => {
+
     }
 
     return (<main className="resMain">
@@ -55,7 +58,7 @@ const Reserve = ({ reservations, setReservations }) => {
                 </div>
             </div>
             <div className="reservationButtonDiv">
-                <button onClick={sendEmail}>Checkout</button>
+                <button onClick={setupEmail}>Checkout</button>
             </div>
         </section>
     </main >);
