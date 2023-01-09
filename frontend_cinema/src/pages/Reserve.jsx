@@ -2,19 +2,14 @@ import { useState } from "react";
 import Seat from "../components/seat/Seat";
 import "./Reserve.css"
 
-const Reserve = ({ reservations, setReservations }) => {
+const Reserve = ({ reservations, setReservations, calcPrice, available, income, showPrice, viewSelected }) => {
     const [selection, setSelection] = useState([])
     const [ownerEmail, setOwnerEmail] = useState("")
     const [customerEmail, setCustomerEmail] = useState("")
     const [success, setSuccess] = useState(false)
-    const [showPrice, setShowPrice] = useState(0)
     const [confirmClicked, setConfirmClicked] = useState(false)
 
-    let viewSelected = reservations.filter(res => {
-        if (res.reserved === true) {
-            return res
-        }
-    })
+
 
     const confirmed = () => {
         setSelection(viewSelected)
@@ -22,20 +17,7 @@ const Reserve = ({ reservations, setReservations }) => {
         calcPrice()
     }
 
-    const calcPrice = () => {
-        let seats = viewSelected.map((selection) => { return selection.priceClass })
-        let price = 0
-        seats.forEach((seat) => {
-            if (seat === "b") {
-                price += 10
-            }
-            if (seat === "a") {
-                price += 8
-            }
-        })
-        setShowPrice(price)
-        return price
-    }
+
 
     const formatEmails = (price) => {
         let seatsSelection = viewSelected.map((selectedSeat) => selectedSeat.seat)
@@ -104,7 +86,7 @@ const Reserve = ({ reservations, setReservations }) => {
                         )
                     })}
                 </div>
-                {showPrice && <p>Total: {showPrice} €</p>}
+                {showPrice > 0 && <p>Total: {showPrice} €</p>}
             </div>
             {confirmClicked && <div className="reservationButtonDiv">
                 <button onClick={() => { formatEmails(showPrice) }}>Checkout</button>

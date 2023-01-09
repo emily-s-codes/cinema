@@ -10,6 +10,15 @@ import UnderConstruction from './pages/underConstruction';
 function App() {
   const [reservations, setReservations] = useState([])
   const [cleared, setCleared] = useState(false)
+  const [available, setAvailable] = useState(0)
+  const [income, setIncome] = useState(0)
+  const [showPrice, setShowPrice] = useState(0)
+
+  let viewSelected = reservations.filter(res => {
+    if (res.reserved === true) {
+      return res
+    }
+  })
 
   useEffect(() => {
     fetch('http://localhost:9000/reservations')
@@ -31,6 +40,21 @@ function App() {
     setReservations(reservations)
   }
 
+  const calcPrice = () => {
+    let seats = viewSelected.map((selection) => { return selection.priceClass })
+    let price = 0
+    seats.forEach((seat) => {
+      if (seat === "b") {
+        price += 10
+      }
+      if (seat === "a") {
+        price += 8
+      }
+    })
+    setShowPrice(price)
+    return price
+  }
+
 
   return (
     <div className="App">
@@ -38,8 +62,30 @@ function App() {
         <Routes>
           <Route path={"/"} element={<><Header page={"Home"} /><Homepage /></>} />
           <Route path={"/tbd"} element={<><Header page={"OOPS!"} /><UnderConstruction /></>} />
-          <Route path={"/admin"} element={<><Header page={"Admin"} /><Admin reservations={reservations} cleared={cleared} setCleared={setCleared} clearReservations={clearReservations} /></>} />
-          <Route path={"/reserve"} element={<><Header page={"Reservations"} /><Reserve reservations={reservations} setReservations={setReservations} /></>} />
+          <Route
+            path={"/admin"}
+            element={<>
+              <Header page={"Admin"} />
+              <Admin
+                calcPrice={calcPrice}
+                available={available}
+                setAvailable={setAvailable}
+                income={income}
+                setIncome={setIncome}
+                reservations={reservations}
+                cleared={cleared}
+                setCleared={setCleared}
+                clearReservations={clearReservations}
+                viewSelected={viewSelected} /></>} />
+          <Route
+            path={"/reserve"}
+            element={<>
+              <Header page={"Reservations"} />
+              <Reserve
+                reservations={reservations}
+                setReservations={setReservations}
+                calcPrice={calcPrice}
+                viewSelected={viewSelected} /></>} />
         </Routes>
       </Router>
     </div>
