@@ -32,6 +32,15 @@ app.get('/empty', (_, res) => {
     })
 })
 
+const getCurrentRes = () => {
+    return new Promise((resolve, reject) => {
+        fs.readFile('./data.json', (err, data) => {
+            if (err) reject(err)
+        })
+        resolve(JSON.parse(data))
+    })
+}
+
 app.get('/reservations', (_, res) => {
     fs.readFile('./data.json', (err, data) => {
         if (err) {
@@ -118,7 +127,25 @@ app.post('/api/ownermail', (req, res) => {
         from: 'thisproject@me.com',
         to: 'owner@cinema.com',
         subject: 'new reservation received',
-        text: `Cheers, you have just made another ${req.body.price} €. The following seats are now booked: ${req.body.seatsString}.`,
+        //  
+        text: "Cheers, you have just made another sale",
+        html: `<p>Cheers, you have just made another ${req.body.price} €. The following seats are now booked: ${req.body.seatsString}.</p>`
+    }
+
+    transport.sendMail(message, (err, info) => {
+        console.log(info)
+        if (err) return res.status(500).json({ message: err })
+        return res.status(200).json({ message: 'good to go' })
+    })
+})
+
+app.post('/api/customermail', (req, res) => {
+    const message = {
+        from: 'thisproject@me.com',
+        to: 'customer@memail.com',
+        subject: 'your reservation at KornerKino',
+        //  
+        text: "Thank you for booking with KornerKino! You can use the following " + req.body.price + " €. The following seats are now booked: " + req.body.seatsString + ".",
         html: `<p>${req.body.text}</p>`
     }
 

@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { json } from "react-router-dom";
 import Seat from "../components/seat/Seat";
 import "./Reserve.css"
 
 const Reserve = ({ reservations, setReservations }) => {
     const [selection, setSelection] = useState([])
     const [email, setEmail] = useState("")
+    const [success, setSuccess] = useState(false)
+    const [showPrice, setShowPrice] = useState(0)
+
     let viewSelected = reservations.filter(res => {
         if (res.reserved === true) {
             return res
@@ -14,26 +16,29 @@ const Reserve = ({ reservations, setReservations }) => {
 
     const confirmed = () => {
         setSelection(viewSelected)
+        calcPrice()
     }
 
-    const setupEmail = () => {
+    const calcPrice = () => {
         let seats = viewSelected.map((selection) => { return selection.priceClass })
-        let seatsSelection = viewSelected.map((selectedSeat) => selectedSeat.seat)
-        let seatsString = seatsSelection.join(", ")
         let price = 0
         seats.forEach((seat) => {
             if (seat === "b") {
-                price += 8
-            }
-            if (seat === "a") {
                 price += 10
             }
+            if (seat === "a") {
+                price += 8
+            }
         })
-        sendEmail(price, seatsString)
+        setShowPrice(price)
+        return price
     }
 
-    const sendEmail = (price, seatsString) => {
+    const sendEmail = (price) => {
+        let seatsSelection = viewSelected.map((selectedSeat) => selectedSeat.seat)
+        let seatsString = seatsSelection.join(", ")
         console.log('sent email', price, seatsString)
+        setSuccess(true)
         fetch('http://localhost:9000/api/ownermail', {
             method: 'POST',
             headers: {
@@ -74,9 +79,11 @@ const Reserve = ({ reservations, setReservations }) => {
                         )
                     })}
                 </div>
+                {showPrice && <p>Total: {showPrice} €</p>}
             </div>
             <div className="reservationButtonDiv">
-                <button onClick={setupEmail}>Checkout</button>
+                <button onClick={() => { sendEmail(showPrice) }}>Checkout</button>
+                {success && <p>Success!</p>}
             </div>
         </section>
     </main >);
