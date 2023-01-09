@@ -51,3 +51,31 @@
     margin-top: 10px;
     height: 100px;
 }
+
+.aInfo {
+    background-color: blue;
+    border: 3px solid white;
+    color: white;
+    padding: 5px;
+}
+
+.bInfo {
+    background-color: green;
+    border: 3px solid white;
+    color: white;
+    padding: 5px;
+}
+
+.selectedInfo {
+    background-color: red;
+    border: 3px solid white;
+    color: white;
+    padding: 5px;
+}
+
+.unavailableInfo {
+    background-color: gray;
+    border: 3px solid white;
+    color: white;
+    padding: 5px;
+}

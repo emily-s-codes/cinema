@@ -128,8 +128,8 @@ app.post('/api/ownermail', (req, res) => {
         to: 'owner@cinema.com',
         subject: 'new reservation received',
         //  
-        text: "Cheers, you have just made another sale",
-        html: `<p>Cheers, you have just made another ${req.body.price} €. The following seats are now booked: ${req.body.seatsString}.</p>`
+        text: `Cheers, you have just made another ${req.body.price} €. The following seats are now booked: ${req.body.seatsString}.`,
+        html: `<p style="color:purple;">Cheers, you have just made another ${req.body.price} €. The following seats are now booked: ${req.body.seatsString}.</p>`
     }
 
     transport.sendMail(message, (err, info) => {
@@ -145,8 +145,8 @@ app.post('/api/customermail', (req, res) => {
         to: 'customer@memail.com',
         subject: 'your reservation at KornerKino',
         //  
-        text: "Thank you for booking with KornerKino! You can use the following " + req.body.price + " €. The following seats are now booked: " + req.body.seatsString + ".",
-        html: `<p>${req.body.text}</p>`
+        text: `Thank you for booking with KornerKino! Your total price was ${req.body.price} €. You can use the following reservation ID numbers to edit your booking of these seats:${req.body.seatsString}.`,
+        html: `<p style="color:purple;">Thank you for booking with KornerKino! Your total price was ${req.body.price} €. You can use the following reservation ID numbers to edit your booking of these seats:${req.body.seatsString}.</p>`
     }
 
     transport.sendMail(message, (err, info) => {

@@ -4,9 +4,11 @@ import "./Reserve.css"
 
 const Reserve = ({ reservations, setReservations }) => {
     const [selection, setSelection] = useState([])
-    const [email, setEmail] = useState("")
+    const [ownerEmail, setOwnerEmail] = useState("")
+    const [customerEmail, setCustomerEmail] = useState("")
     const [success, setSuccess] = useState(false)
     const [showPrice, setShowPrice] = useState(0)
+    const [confirmClicked, setConfirmClicked] = useState(false)
 
     let viewSelected = reservations.filter(res => {
         if (res.reserved === true) {
@@ -16,6 +18,7 @@ const Reserve = ({ reservations, setReservations }) => {
 
     const confirmed = () => {
         setSelection(viewSelected)
+        setConfirmClicked(true)
         calcPrice()
     }
 
@@ -34,11 +37,16 @@ const Reserve = ({ reservations, setReservations }) => {
         return price
     }
 
-    const sendEmail = (price) => {
+    const formatEmails = (price) => {
         let seatsSelection = viewSelected.map((selectedSeat) => selectedSeat.seat)
         let seatsString = seatsSelection.join(", ")
-        console.log('sent email', price, seatsString)
         setSuccess(true)
+
+        sendOwnerEmail(price, seatsString)
+        sendCustEmail(price, seatsString)
+    }
+
+    const sendOwnerEmail = (price, seatsString) => {
         fetch('http://localhost:9000/api/ownermail', {
             method: 'POST',
             headers: {
@@ -51,9 +59,26 @@ const Reserve = ({ reservations, setReservations }) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                setEmail(data)
+                setOwnerEmail(data)
             })
-        console.log(email)
+        console.log(ownerEmail)
+    }
+    const sendCustEmail = (price, seatsString) => {
+        fetch('http://localhost:9000/api/customermail', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                price,
+                seatsString
+            })
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setCustomerEmail(data)
+            })
+        console.log(customerEmail)
     }
 
     return (<main className="resMain">
@@ -66,10 +91,10 @@ const Reserve = ({ reservations, setReservations }) => {
             <section className="screen">Screen</section>
         </section>
         <section className="completeResSection">
-            <p className="a">Rows 1 & 2: 10€</p>
-            <p className="b">Rows 3 & 4: 8€</p>
-            <p className="selected">Your selection</p>
-            <p className="unavailable">Unavailable</p>
+            <p className="bInfo">Rows 3 & 4: 10€</p>
+            <p className="aInfo">Rows 1 & 2: 8€</p>
+            <p className="selectedInfo">Your selection</p>
+            <p className="unavailableInfo">Unavailable</p>
             <div className="reservationButtonDiv">
                 <button onClick={confirmed}>Confirm Selection</button>
                 <div className="selectedDiv">
@@ -81,10 +106,10 @@ const Reserve = ({ reservations, setReservations }) => {
                 </div>
                 {showPrice && <p>Total: {showPrice} €</p>}
             </div>
-            <div className="reservationButtonDiv">
-                <button onClick={() => { sendEmail(showPrice) }}>Checkout</button>
+            {confirmClicked && <div className="reservationButtonDiv">
+                <button onClick={() => { formatEmails(showPrice) }}>Checkout</button>
                 {success && <p>Success!</p>}
-            </div>
+            </div>}
         </section>
     </main >);
 }
