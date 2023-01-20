@@ -1,26 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Seat from "../components/seat/Seat";
 import "./Reserve.css"
 
-const Reserve = ({ reservations, setReservations, calcPrice, available, income, showPrice, viewSelected, setAvailable }) => {
+const Reserve = ({ checkoutClicked, setCheckoutClicked, reservations, setReservations, available, viewSelected, setAvailable }) => {
     const [selection, setSelection] = useState([])
     const [ownerEmail, setOwnerEmail] = useState("")
     const [customerEmail, setCustomerEmail] = useState("")
     const [success, setSuccess] = useState(false)
     const [confirmClicked, setConfirmClicked] = useState(false)
-    console.log(selection)
+    const [showPrice, setShowPrice] = useState(0)
+    console.log(reservations)
 
-    let selectedArray = []
+    useEffect(() => {
+        calcPrice()
+    }, [selection])
+
+    const calcPrice = () => {
+        let price = 0
+
+        selection.forEach((spot) => {
+            const index = reservations.findIndex((reservation) => reservation.seat === spot)
+
+            if (reservations[index].priceClass === "b") {
+                price += 10
+            }
+
+            if (reservations[index].priceClass === "a") {
+                price += 8
+            }
+        })
+        setShowPrice(price)
+        return price
+    }
 
     const confirmed = () => {
         setConfirmClicked(true)
         calcPrice()
-        showSelectedArray()
-    }
-    function showSelectedArray() {
-        selectedArray.map((selection) => console.log(selection.id))
-        let seatsSelection = selectedArray.map((selection) => selection.id)
-        let seatsString = seatsSelection.join(", ")
     }
 
     const submitHandler = (price) => {
@@ -30,6 +45,7 @@ const Reserve = ({ reservations, setReservations, calcPrice, available, income, 
         updateAvailability()
         sendOwnerEmail(price, reservedString)
         sendCustEmail(price, reservedString)
+        setCheckoutClicked(true)
     }
 
     const sendOwnerEmail = (price, seatsString) => {
@@ -108,12 +124,17 @@ const Reserve = ({ reservations, setReservations, calcPrice, available, income, 
                         )
                     })}
                 </div>}
-                {showPrice > 0 && <p>Total: {showPrice} €</p>}
+                {confirmClicked && <p>Total: {showPrice} €</p>}
             </div>
             {confirmClicked && <div className="reservationButtonDiv">
                 <button onClick={() => { submitHandler(showPrice) }}>Checkout</button>
                 {success && <p>Success!</p>}
             </div>}
+            {checkoutClicked &&
+                <div className="reservationButtonDiv">
+                    <button onClick={() => { window.location.reload(true) }}>New Session</button>
+                </div>
+            }
         </section>
     </main >);
 }

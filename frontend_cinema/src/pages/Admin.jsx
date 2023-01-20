@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ViewReservations from "../components/viewReservations/ViewRes";
 import "./Admin.css"
 
-const Admin = ({ clearReservations, cleared, setCleared, reservations, available, setAvailable, income, setIncome, viewSelected }) => {
+const Admin = ({ checkoutClicked, clearReservations, cleared, setCleared, reservations, available, setAvailable, income, setIncome, viewSelected }) => {
     const [view, setView] = useState(false)
 
     const toggleViewCleared = () => {
@@ -10,12 +10,10 @@ const Admin = ({ clearReservations, cleared, setCleared, reservations, available
         setCleared(false)
     }
 
-    const trueRes = reservations.filter((res) => res.reserved === true)
-    const trueResLength = trueRes.length
-    console.log(trueRes)
+    const trueRes = reservations?.filter((res) => res.reserved === true)
 
     const showIncome = () => {
-        let trueResPrices = trueRes.map((selection) => { return selection.priceClass })
+        let trueResPrices = trueRes?.map((selection) => { return selection.priceClass })
         trueResPrices.forEach((seat) => {
             if (seat === "b") {
                 income += 10
@@ -29,11 +27,11 @@ const Admin = ({ clearReservations, cleared, setCleared, reservations, available
     }
 
     useEffect(() => {
-        setAvailable(24 - trueResLength)
+        if (trueRes) {
+            setAvailable(24 - trueRes.length)
+        }
         showIncome()
-    }, [trueResLength])
-
-    console.log(income)
+    }, [checkoutClicked])
 
     return (
         <main>
@@ -46,7 +44,7 @@ const Admin = ({ clearReservations, cleared, setCleared, reservations, available
                     <p className="onClickP" onClick={toggleViewCleared}>view all reservations {view ? "—" : "+"}</p>
                     {view && trueRes.map((reservation, key) => {
                         return (<div key={key}>
-                            <ViewReservations reservation={reservation} />
+                            {reservations && <ViewReservations reservation={reservation} />}
                         </div>)
                     })}
                 </section>

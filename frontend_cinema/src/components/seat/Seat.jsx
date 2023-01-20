@@ -5,8 +5,15 @@ const Seat = ({ index, reservation, setSelection, reservations, setReservations,
     const [selected, setSelected] = useState(false)
 
     const changeHandler = (reserved) => {
-        setSelected(!selected)
-        setSelection(prev => [...prev, reserved])
+        if (selected === false) {
+            setSelected(true)
+            setSelection(prev => [...prev, reserved])
+        }
+
+        if (selected === true) {
+            setSelected(false)
+            setSelection(prev => prev.filter(seats => seats !== reserved))
+        }
     }
 
     const noChangeHandler = () => {

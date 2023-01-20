@@ -12,7 +12,7 @@ function App() {
   const [cleared, setCleared] = useState(false)
   const [available, setAvailable] = useState(true)
   const [income, setIncome] = useState(0)
-  const [showPrice, setShowPrice] = useState(0)
+  const [checkoutClicked, setCheckoutClicked] = useState(false)
 
   let viewSelected = reservations.filter(res => {
     if (res.reserved === true) {
@@ -40,22 +40,6 @@ function App() {
     setReservations(reservations)
   }
 
-  const calcPrice = () => {
-    let seats = viewSelected.map((selection) => { return selection.priceClass })
-    let price = 0
-    seats.forEach((seat) => {
-      if (seat === "b") {
-        price += 10
-      }
-      if (seat === "a") {
-        price += 8
-      }
-    })
-    setShowPrice(price)
-    return price
-  }
-
-
   return (
     <div className="App">
       <Router>
@@ -67,7 +51,7 @@ function App() {
             element={<>
               <Header page={"Admin"} />
               <Admin
-                calcPrice={calcPrice}
+                checkoutClicked={checkoutClicked}
                 available={available}
                 setAvailable={setAvailable}
                 income={income}
@@ -82,9 +66,10 @@ function App() {
             element={<>
               <Header page={"Reservations"} />
               <Reserve
+                checkoutClicked={checkoutClicked}
+                setCheckoutClicked={setCheckoutClicked}
                 reservations={reservations}
                 setReservations={setReservations}
-                calcPrice={calcPrice}
                 viewSelected={viewSelected}
                 available={available}
                 setAvailable={setAvailable} /></>} />
