@@ -31,7 +31,7 @@ const Admin = ({ clearReservations, cleared, setCleared, reservations, available
     useEffect(() => {
         setAvailable(24 - trueResLength)
         showIncome()
-    }, [reservations])
+    }, [trueResLength])
 
     console.log(income)
 

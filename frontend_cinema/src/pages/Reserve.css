@@ -10,7 +10,7 @@
     grid-template-columns: repeat(6, 1fr);
     place-items: center;
     gap: 20px;
-    color: white;
+
 }
 
 .screen {

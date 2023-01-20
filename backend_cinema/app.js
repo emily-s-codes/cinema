@@ -32,14 +32,14 @@ app.get('/empty', (_, res) => {
     })
 })
 
-const getCurrentRes = () => {
-    return new Promise((resolve, reject) => {
-        fs.readFile('./data.json', (err, data) => {
-            if (err) reject(err)
-        })
-        resolve(JSON.parse(data))
-    })
-}
+// const getCurrentRes = () => {
+//     return new Promise((resolve, reject) => {
+//         fs.readFile('./data.json', (err, data) => {
+//             if (err) reject(err)
+//         })
+//         resolve(JSON.parse(data))
+//     })
+// }
 
 app.get('/reservations', (_, res) => {
     fs.readFile('./data.json', (err, data) => {
@@ -52,10 +52,9 @@ app.get('/reservations', (_, res) => {
     })
 })
 
-app.put('/reserve/:seat', (req, res) => {
-    const reserved = req.body.reserved
-    const seat = req.params.seat
-    let myid = req.body.myid
+app.put('/reserve', (req, res) => {
+    const selectedSeats = req.body
+    console.log(selectedSeats)
 
     fs.readFile('./data.json', (err, data) => {
         if (err) {
@@ -63,18 +62,18 @@ app.put('/reserve/:seat', (req, res) => {
         }
 
         const reservations = JSON.parse(data)
-        const index = reservations.findIndex((reservation) => reservation.seat === seat)
+        selectedSeats.forEach((seat) => {
+            const index = reservations.findIndex((reservation) => reservation.seat === seat)
 
-        if (reserved === true) {
-            reservations[index].reserved = reserved
-            reservations[index].myid = uid()
-        }
+            if (reservations[index].reserved === true) {
+                res.status(400).send('seat is already reserved')
+            }
 
-        if (reserved === false) {
-            reservations[index].reserved = reserved
-            reservations[index].myid = null
-        }
-
+            if (reservations[index].reserved === false) {
+                reservations[index].reserved = true
+                reservations[index].myid = uid()
+            }
+        })
         fs.writeFile('./data.json', JSON.stringify(reservations), (err) => {
             if (err) {
                 return res.status(500).send('could not complete reservation.')
@@ -89,6 +88,7 @@ app.put('/reserve/:seat', (req, res) => {
         console.log(reservations)
         return res.json(reservations)
     })
+
 })
 
 app.delete('/reservations', (req, res) => {

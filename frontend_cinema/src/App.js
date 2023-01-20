@@ -10,7 +10,7 @@ import UnderConstruction from './pages/underConstruction';
 function App() {
   const [reservations, setReservations] = useState([])
   const [cleared, setCleared] = useState(false)
-  const [available, setAvailable] = useState(0)
+  const [available, setAvailable] = useState(true)
   const [income, setIncome] = useState(0)
   const [showPrice, setShowPrice] = useState(0)
 
@@ -85,7 +85,9 @@ function App() {
                 reservations={reservations}
                 setReservations={setReservations}
                 calcPrice={calcPrice}
-                viewSelected={viewSelected} /></>} />
+                viewSelected={viewSelected}
+                available={available}
+                setAvailable={setAvailable} /></>} />
         </Routes>
       </Router>
     </div>

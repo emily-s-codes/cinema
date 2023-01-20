@@ -1,44 +1,33 @@
 import "./Seat.css"
 import { useState } from "react";
 
-const Seat = ({ index, reservation, reservations, setReservations, confirmed }) => {
-    const [selected, setSelected] = useState(reservation.reserved)
+const Seat = ({ index, reservation, setSelection, reservations, setReservations, confirmed, setUnavailable, success }) => {
+    const [selected, setSelected] = useState(false)
 
-    const changeHandler = (seat, reserved) => {
+    const changeHandler = (reserved) => {
         setSelected(!selected)
-        console.log(reservation.seat, !selected, !reserved)
-        editHandler(seat, reserved)
+        setSelection(prev => [...prev, reserved])
     }
 
-    const editHandler = (seat, reserved) => {
-        fetch(`http://localhost:9000/reserve/${seat}`, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                seat,
-                reserved: !reserved
-            })
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data)
-                setReservations(data)
-            })
+    const noChangeHandler = () => {
+        console.log('sorry, this seat is reserved')
     }
+
 
     return (
-        <label className={selected ?
-            'seatDiv selected' :
-            `seatDiv ${reservation.priceClass}`}>
+        <label id={reservation.seat}
+            className={
+                reservation.reserved ?
+                    'seatDiv unavailable' :
+                    selected ? "selected seatDiv" : `${reservation.priceClass} seatDiv`}
+        >
             <input
                 type="checkbox"
-                checked={reservation.reserved}
-                onChange={() => changeHandler(reservation.seat, reservation.reserved)}
+                defaultChecked={reservation.reserved}
+                onChange={reservation.reserved ? () => noChangeHandler() : () => changeHandler(reservation.seat)}
             >
             </input>
-        </label>
+        </label >
 
     );
 }
