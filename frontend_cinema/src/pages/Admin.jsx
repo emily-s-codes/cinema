@@ -31,7 +31,7 @@ const Admin = ({ checkoutClicked, clearReservations, cleared, setCleared, reserv
             setAvailable(24 - trueRes.length)
         }
         showIncome()
-    }, [checkoutClicked])
+    }, [])
 
     return (
         <main>

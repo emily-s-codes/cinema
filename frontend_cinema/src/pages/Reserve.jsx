@@ -9,7 +9,6 @@ const Reserve = ({ checkoutClicked, setCheckoutClicked, reservations, setReserva
     const [success, setSuccess] = useState(false)
     const [confirmClicked, setConfirmClicked] = useState(false)
     const [showPrice, setShowPrice] = useState(0)
-    console.log(reservations)
 
     useEffect(() => {
         calcPrice()
@@ -40,33 +39,29 @@ const Reserve = ({ checkoutClicked, setCheckoutClicked, reservations, setReserva
 
     const submitHandler = (price) => {
         let seatsReserved = viewSelected.map((selectedSeat) => selectedSeat.seat)
-        let reservedString = seatsReserved.join(", ")
+        let seatsString = seatsReserved.join(", ")
         setSuccess(true)
-        updateAvailability()
-        sendOwnerEmail(price, reservedString)
-        sendCustEmail(price, reservedString)
         setCheckoutClicked(true)
+        sendOwnerEmail(price, seatsString)
     }
 
-    const sendOwnerEmail = (price, seatsString) => {
-        fetch('http://localhost:9000/api/ownermail', {
-            method: 'POST',
+    const updateAvailability = () => {
+        fetch(`${process.env.REACT_APP_BACKENDURL}/reserve`, {
+            method: 'PUT',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                price,
-                seatsString
-            })
+            body: JSON.stringify(selection)
         })
             .then((res) => res.json())
             .then((data) => {
-                setOwnerEmail(data)
+                setReservations(data)
             })
-        console.log(ownerEmail)
     }
+
     const sendCustEmail = (price, seatsString) => {
-        fetch('http://localhost:9000/api/customermail', {
+        console.log('FE: customer')
+        fetch(`${process.env.REACT_APP_BACKENDURL}/api/customermail`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -79,22 +74,31 @@ const Reserve = ({ checkoutClicked, setCheckoutClicked, reservations, setReserva
             .then((res) => res.json())
             .then((data) => {
                 setCustomerEmail(data)
+                updateAvailability()
             })
+            .catch(err => console.log(err))
         console.log(customerEmail)
     }
 
-    const updateAvailability = () => {
-        fetch(`http://localhost:9000/reserve`, {
-            method: 'PUT',
+    const sendOwnerEmail = (price, seatsString) => {
+        console.log('FE: owner')
+        fetch(`${process.env.REACT_APP_BACKENDURL}/api/ownermail`, {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(selection)
+            body: JSON.stringify({
+                price,
+                seatsString
+            })
         })
-            .then((res) => res.json())
+            .then((res) => {
+                console.log(res)
+                res.json()
+            })
             .then((data) => {
-                console.log(data)
-                setReservations(data)
+                setOwnerEmail(data)
+                sendCustEmail(price, seatsString)
             })
     }
 

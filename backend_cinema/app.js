@@ -3,11 +3,21 @@ import cors from 'cors'
 import morgan from 'morgan'
 import fs from 'fs'
 import nodemailer from 'nodemailer'
+import multer from 'multer'
 import { uid } from 'uid'
 import "./config/config.js"
 
 const PORT = process.env.PORT
 const app = express()
+
+const transport = nodemailer.createTransport({
+    host: "smtp.mailtrap.io",
+    port: 2525,
+    auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASSWORD
+    }
+});
 
 app.use(cors())
 app.use(express.json())
@@ -113,16 +123,8 @@ app.delete('/reservations', (req, res) => {
     })
 })
 
-const transport = nodemailer.createTransport({
-    host: "smtp.mailtrap.io",
-    port: 2525,
-    auth: {
-        user: process.env.NODEMAILER_USER,
-        pass: process.env.NODEMAILER_PASSWORD
-    }
-});
-
-app.post('/api/ownermail', (req, res) => {
+app.post('/api/ownermail', async (req, res) => {
+    console.log('owner email')
     const message = {
         from: 'thisproject@me.com',
         to: 'owner@cinema.com',
@@ -131,15 +133,19 @@ app.post('/api/ownermail', (req, res) => {
         text: `Cheers, you have just made another ${req.body.price} €. The following seats are now booked: ${req.body.seatsString}.`,
         html: `<p style="color:purple;">Cheers, you have just made another ${req.body.price} €. The following seats are now booked: ${req.body.seatsString}.</p>`
     }
-
-    transport.sendMail(message, (err, info) => {
-        console.log(info)
-        if (err) return res.status(500).json({ message: err })
-        return res.status(200).json({ message: 'good to go' })
-    })
+    try {
+        transport.sendMail(message, (err, info) => {
+            return res.status(200).json({ message: 'good to go' })
+        })
+    }
+    catch {
+        res.status(500).json({ message: err })
+    }
 })
 
+
 app.post('/api/customermail', (req, res) => {
+    console.log('customer email')
     const message = {
         from: 'thisproject@me.com',
         to: 'customer@memail.com',

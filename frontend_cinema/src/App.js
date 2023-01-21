@@ -21,7 +21,7 @@ function App() {
   })
 
   useEffect(() => {
-    fetch('http://localhost:9000/reservations')
+    fetch(`${process.env.REACT_APP_BACKENDURL}/reservations`)
       .then(res => res.json())
       .then(data => {
         setReservations(data)
@@ -31,7 +31,7 @@ function App() {
 
   const clearReservations = () => {
     console.log('reservations cleared')
-    fetch('http://localhost:9000/empty')
+    fetch(`${process.env.REACT_APP_BACKENDURL}/empty`)
       .then(res => res.json())
       .then(data => {
         setReservations(data)
