@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
+import Header from "../components/header/Header";
 import Seat from "../components/seat/Seat";
 import "./Reserve.css"
 
-const Reserve = ({ checkoutClicked, setCheckoutClicked, reservations, setReservations, available, viewSelected, setAvailable }) => {
+const Reserve = ({ setCheckoutClicked, reservations, setReservations, available, viewSelected, setAvailable }) => {
     const [selection, setSelection] = useState([])
-    const [ownerEmail, setOwnerEmail] = useState("")
+    const [_, setOwnerEmail] = useState("")
     const [customerEmail, setCustomerEmail] = useState("")
     const [success, setSuccess] = useState(false)
     const [confirmClicked, setConfirmClicked] = useState(false)
     const [showPrice, setShowPrice] = useState(0)
+    const [newSession, setNewSession] = useState(false)
 
     useEffect(() => {
         calcPrice()
@@ -37,6 +39,10 @@ const Reserve = ({ checkoutClicked, setCheckoutClicked, reservations, setReserva
         calcPrice()
     }
 
+    const cancel = () => {
+        setConfirmClicked(false)
+    }
+
     const submitHandler = (price) => {
         let seatsReserved = viewSelected.map((selectedSeat) => selectedSeat.seat)
         let seatsString = seatsReserved.join(", ")
@@ -57,6 +63,7 @@ const Reserve = ({ checkoutClicked, setCheckoutClicked, reservations, setReserva
             .then((data) => {
                 setReservations(data)
             })
+        setNewSession(true)
     }
 
     const sendCustEmail = (price, seatsString) => {
@@ -102,45 +109,54 @@ const Reserve = ({ checkoutClicked, setCheckoutClicked, reservations, setReserva
             })
     }
 
-    return (<main className="resMain">
-        <section className="selectSection">
-            <section className="seatGrid">
-                {reservations.map((reservation, key) => {
-                    return <Seat key={key} index={key} confirmed={confirmed} setSelection={setSelection} reservation={reservation} reservations={reservations} setReservations={setReservations} available={available}
-                        setAvailable={setAvailable}
-                        success={success}
-                        setSuccess={setSuccess} />
-                })}
-            </section>
-            <section className="screen">Screen</section>
-        </section>
-        <section className="completeResSection">
-            <p className="bInfo">Rows 3 & 4: 10€</p>
-            <p className="aInfo">Rows 1 & 2: 8€</p>
-            <p className="selectedInfo">Your selection</p>
-            <p className="unavailableInfo">Unavailable</p>
-            <div className="reservationButtonDiv">
-                <button onClick={confirmed}>Confirm Selection</button>
-                {confirmClicked && <div className="selectedDiv">
-                    {selection?.map((confirmation, key) => {
-                        return (
-                            <p key={key}>{confirmation}</p>
-                        )
-                    })}
-                </div>}
-                {confirmClicked && <p>Total: {showPrice} €</p>}
-            </div>
-            {confirmClicked && <div className="reservationButtonDiv">
-                <button onClick={() => { submitHandler(showPrice) }}>Checkout</button>
-                {success && <p>Success!</p>}
-            </div>}
-            {checkoutClicked &&
-                <div className="reservationButtonDiv">
-                    <button onClick={() => { window.location.reload(true) }}>New Session</button>
-                </div>
-            }
-        </section>
-    </main >);
+    return (
+        <div className="pageContainer">
+            <Header page={"Reservations"} />
+            <main className="resMain">
+                <p className={newSession ?
+                    "hidden" :
+                    success ? "" : "hidden"}>Loading ... </p>
+                <section className={confirmClicked ? "hidden" : "selectSection"}>
+                    <section className="seatGrid">
+                        {reservations.map((reservation, key) => {
+                            return <Seat key={key} index={key} confirmed={confirmed} setSelection={setSelection} reservation={reservation} reservations={reservations} setReservations={setReservations} available={available}
+                                setAvailable={setAvailable}
+                                success={success}
+                                setSuccess={setSuccess} />
+                        })}
+                    </section>
+                    <section className="screen"><p className="small">screen</p></section>
+                </section>
+                <section className={success ? "hidden" : "completeResSection"}>
+                    <section className="colorKey">
+                        <p className={confirmClicked ? "hidden" : "bInfo"}>10€</p>
+                        <p className={confirmClicked ? "hidden" : "aInfo"}>8€</p>
+                        <p className={confirmClicked ? "hidden" : "selectedInfo"}>Selected</p>
+                        <p className={confirmClicked ? "hidden" : "unavailableInfo"}>Unavailable</p>
+                    </section>
+                    <div className="reservationButtonDiv">
+                        <button onClick={confirmed} className={confirmClicked ? "hidden" : ""}>Confirm Selection</button>
+                        <button onClick={cancel} className={confirmClicked ? "" : "hidden"}>Cancel</button>
+                        {confirmClicked && <div className="selectedDiv">
+                            {selection?.map((confirmation, key) => {
+                                return (
+                                    <p key={key}>{confirmation}</p>
+                                )
+                            })}
+                        </div>}
+                        {confirmClicked && <p>Total: {showPrice} €</p>}
+                    </div>
+                    {confirmClicked && <div className="reservationButtonDiv">
+                        <button onClick={() => { submitHandler(showPrice) }}>Checkout</button>
+                    </div>}
+                </section>
+                {newSession &&
+                    <div className="reservationButtonDiv">
+                        <button onClick={() => { window.location.reload(true) }}>New Session</button>
+                    </div>
+                }
+            </main >
+        </div>);
 }
 
 export default Reserve;

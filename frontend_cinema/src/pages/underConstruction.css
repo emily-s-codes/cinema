@@ -7,11 +7,12 @@
 }
 
 .uCMain p {
-    color: darkred;
+    text-align: center;
+    color: #301E67;
 }
 
 .reactIcons {
-    color: darkred;
+    color: #301E67;
 }
 
 .backArrowDiv {
@@ -19,9 +20,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 350ms;
 }
 
 .backArrowDiv:hover {
-    border: 2px solid pink;
     border-radius: 50%;
+    transform: scale(1.2)
 }

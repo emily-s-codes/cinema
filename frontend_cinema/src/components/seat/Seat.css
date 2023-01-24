@@ -1,6 +1,6 @@
 .seatDiv {
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -12,41 +12,51 @@ input[type=checkbox] {
 }
 
 .a {
-    background-color: blue;
+    background-color: #439A97;
     border: 3px solid white;
     color: white;
     padding: 5px;
 }
 
 .a:hover {
-    border: 3px solid blue;
+    border: 3px solid #439A97;
+    cursor: pointer;
 }
 
 .b {
-    background-color: green;
+    background-color: #EF9A53;
     border: 3px solid white;
     color: white;
     padding: 5px;
 }
 
 .b:hover {
-    border: 3px solid green;
+    border: 3px solid #EF9A53;
+    cursor: pointer;
 }
 
 .selected {
-    background-color: red;
+    background-color: #E41655;
     border: 3px solid white;
     color: white;
     padding: 5px;
 }
 
 .selected:hover {
-    border: 3px solid red;
+    border: 3px solid #E41655;
+    cursor: pointer;
 }
 
 .unavailable {
-    background-color: gray;
+    background-color: #CACACA;
     border: 3px solid white;
-    color: white;
+    color: #CACACA;
     padding: 5px;
+}
+
+@media only screen and (max-width: 575px) {
+    .seatDiv {
+        height: 35px;
+        width: 35px;
+    }
 }

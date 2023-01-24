@@ -1,9 +1,9 @@
 import "./ViewRes.css"
 
 const ViewReservations = ({ reservation }) => {
-    return (<div className="viewResDiv">
+    return (
         <p>{reservation.seat}</p>
-    </div>);
+    );
 }
 
 export default ViewReservations

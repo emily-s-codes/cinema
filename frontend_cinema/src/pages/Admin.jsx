@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import Header from "../components/header/Header";
 import ViewReservations from "../components/viewReservations/ViewRes";
 import "./Admin.css"
 
-const Admin = ({ checkoutClicked, clearReservations, cleared, setCleared, reservations, available, setAvailable, income, setIncome, viewSelected }) => {
+const Admin = ({ clearReservations, cleared, setCleared, reservations, available, setAvailable, income, setIncome }) => {
     const [view, setView] = useState(false)
 
     const toggleViewCleared = () => {
@@ -34,27 +35,32 @@ const Admin = ({ checkoutClicked, clearReservations, cleared, setCleared, reserv
     }, [])
 
     return (
-        <main>
-            <section className="adminInfoSection">
-                <p className="adminInfoP">Available seats: {available}</p>
-                <p className="adminInfoP">Cumulative income: {income} €</p>
-            </section>
-            <section className="adminSection">
-                <section>
-                    <p className="onClickP" onClick={toggleViewCleared}>view all reservations {view ? "—" : "+"}</p>
-                    {view && trueRes.map((reservation, key) => {
-                        return (<div key={key}>
-                            {reservations && <ViewReservations reservation={reservation} />}
-                        </div>)
-                    })}
+        <div className="pageContainer">
+            <Header page={"Admin"} />
+            <main>
+                <section className="adminInfoSection">
+                    <span>Warning! The features 'Available seats' and 'Total income' are under development and currently unreliable</span>
+                    <p className="adminInfoP">Available seats: {available}</p>
+                    <p className="adminInfoP">Total Income: {income} €</p>
                 </section>
-                <section>
-                    <p className="onClickP" onClick={clearReservations}>delete all reservations</p>
-                    {cleared && <p>Success!</p>}
+                <section className="adminSection">
+                    <section>
+                        <p className="onClickP" onClick={toggleViewCleared}>view all reservations {view ? "—" : "+"}</p>
+                        <div className="resGrid" >
+                            {view && trueRes.map((reservation, key) => {
+                                return (<>
+                                    {reservations && <ViewReservations key={key} reservation={reservation} />}
+                                </>)
+                            })}
+                        </div>
+                    </section>
+                    <section>
+                        <p className="onClickP" onClick={clearReservations}>delete all reservations</p>
+                        {cleared && <p>Success!</p>}
+                    </section>
                 </section>
-            </section>
-
-        </main >
+            </main >
+        </div>
     );
 }
 

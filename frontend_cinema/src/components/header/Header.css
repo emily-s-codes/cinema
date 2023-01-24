@@ -2,8 +2,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: rgb(138, 0, 0);
+    height: 18vh;
+    padding: 0 50px;
+    background-color: #5B8FB9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .headerNav h1,
@@ -27,5 +30,35 @@
 
 .navLinks .active {
     text-decoration: underline;
-    color: aqua;
+    color: #B6EADA;
+}
+
+@media only screen and (max-width: 991px) {
+    .headerNav {
+        padding: 0 20px;
+    }
+
+    .headerNav h2 {
+        font-size: 36px;
+    }
+
+    .hideMobile {
+        display: none;
+    }
+
+    .navLinks {
+        text-align: right;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    .headerNav {
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding: 10px 0;
+    }
+
+    .headerNav h1 {
+        font-size: 24px;
+    }
 }

@@ -4,22 +4,38 @@
     align-items: baseline;
 }
 
+span {
+    margin: 10px;
+    text-align: center;
+    color: red;
+}
+
 .onClickP {
     display: inline-block;
     color: white;
     border: 3px solid white;
-    background-color: darkred;
+    background-color: #301E67;
     text-align: center;
     padding: 10px 0;
     width: 200px;
     margin: 10px 0;
+    border-radius: 10px;
 }
 
-
 .onClickP:hover {
-    color: pink;
+    color: #5B8FB9;
     text-decoration: underline;
-    border: 3px solid pink;
+    border: 3px solid #5B8FB9;
+}
+
+.resGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.resGrid p,
+.onClickP:nth-of-type(2) {
+    color: #301E67;
 }
 
 .adminInfoSection {
@@ -30,11 +46,22 @@
 
 .adminInfoP {
     display: inline-block;
-    color: darkred;
-    border: 3px solid darkred;
+    color: #301E67;
+    border: 3px solid #301E67;
     background-color: white;
     text-align: center;
     padding: 10px 0;
     width: 200px;
     margin: 10px 0;
+    border-radius: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+
+    .adminInfoSection,
+    .adminSection {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }

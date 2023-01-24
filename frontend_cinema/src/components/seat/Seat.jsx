@@ -1,7 +1,7 @@
 import "./Seat.css"
 import { useState } from "react";
 
-const Seat = ({ index, reservation, setSelection, reservations, setReservations, confirmed, setUnavailable, success }) => {
+const Seat = ({ reservation, setSelection }) => {
     const [selected, setSelected] = useState(false)
 
     const changeHandler = (reserved) => {
@@ -27,7 +27,7 @@ const Seat = ({ index, reservation, setSelection, reservations, setReservations,
                 reservation.reserved ?
                     'seatDiv unavailable' :
                     selected ? "selected seatDiv" : `${reservation.priceClass} seatDiv`}
-        >
+        >{reservation.seat}
             <input
                 type="checkbox"
                 defaultChecked={reservation.reserved}

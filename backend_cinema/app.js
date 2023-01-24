@@ -3,7 +3,6 @@ import cors from 'cors'
 import morgan from 'morgan'
 import fs from 'fs'
 import nodemailer from 'nodemailer'
-import multer from 'multer'
 import { uid } from 'uid'
 import "./config/config.js"
 

@@ -1,26 +1,43 @@
+.homepageMain {
+    background-color: white;
+}
+
 .homepageMain h2 {
     text-align: center;
+    margin-top: 20px;
 }
 
 .homeSection {
     display: flex;
     justify-content: space-evenly;
+    margin: 40px 0;
 }
 
 .homeSection a {
+    border-radius: 10px;
     display: inline-block;
     color: white;
     border: 3px solid white;
-    background-color: darkred;
+    background-color: #5B8FB9;
     text-decoration: none;
     text-align: center;
     padding: 10px 0;
-    width: 200px;
+    width: 250px;
     margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .homeSection a:hover {
-    color: pink;
+    color: #03001C;
     text-decoration: underline;
-    border: 3px solid pink;
+    border: 3px solid #03001C;
+}
+
+@media only screen and (max-width:991px) {
+    .homeSection {
+        flex-direction: column;
+        align-items: center;
+    }
 }

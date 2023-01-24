@@ -4,7 +4,6 @@ import Homepage from './pages/Homepage';
 import Admin from "./pages/Admin"
 import Reserve from "./pages/Reserve"
 import { useEffect, useState } from 'react';
-import Header from './components/header/Header';
 import UnderConstruction from './pages/underConstruction';
 
 function App() {
@@ -38,19 +37,20 @@ function App() {
         setCleared(true)
       })
     setReservations(reservations)
+    window.location.reload(true)
   }
 
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path={"/"} element={<><Header page={"Home"} /><Homepage /></>} />
-          <Route path={"/tbd"} element={<><Header page={"OOPS!"} /><UnderConstruction /></>} />
+          <Route path={"/"} element={<><Homepage page={"Home"} /></>} />
+          <Route path={"/tbd"} element={<><UnderConstruction page={"OOPS!"} /></>} />
           <Route
             path={"/admin"}
             element={<>
-              <Header page={"Admin"} />
               <Admin
+                page={"Admin"}
                 checkoutClicked={checkoutClicked}
                 available={available}
                 setAvailable={setAvailable}
@@ -64,8 +64,8 @@ function App() {
           <Route
             path={"/reserve"}
             element={<>
-              <Header page={"Reservations"} />
               <Reserve
+                page={"Reservations"}
                 checkoutClicked={checkoutClicked}
                 setCheckoutClicked={setCheckoutClicked}
                 reservations={reservations}
