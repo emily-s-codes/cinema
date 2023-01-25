@@ -13,33 +13,33 @@ const Admin = ({ clearReservations, cleared, setCleared, reservations, available
 
     const trueRes = reservations?.filter((res) => res.reserved === true)
 
-    const showIncome = () => {
-        let trueResPrices = trueRes?.map((selection) => { return selection.priceClass })
-        trueResPrices.forEach((seat) => {
-            if (seat === "b") {
-                income += 10
-            }
-            if (seat === "a") {
-                income += 8
-            }
-        })
-        setIncome(income)
-        return income
-    }
+    // const showIncome = () => {
+    //     let trueResPrices = trueRes?.map((selection) => { return selection.priceClass })
+    //     trueResPrices.forEach((seat) => {
+    //         if (seat === "b") {
+    //             income += 10
+    //         }
+    //         if (seat === "a") {
+    //             income += 8
+    //         }
+    //     })
+    //     setIncome(income)
+    //     return income
+    // }
 
     useEffect(() => {
         if (trueRes) {
             setAvailable(24 - trueRes.length)
         }
-        showIncome()
-    }, [])
+        //showIncome()
+    }, [trueRes, setAvailable])
 
     return (
         <div className="pageContainer">
             <Header page={"Admin"} />
-            <main>
+            <main className="adminMain">
+                <span>Warning! The features 'Available seats' and 'Total income' are in development and currently unreliable</span>
                 <section className="adminInfoSection">
-                    <span>Warning! The features 'Available seats' and 'Total income' are under development and currently unreliable</span>
                     <p className="adminInfoP">Available seats: {available}</p>
                     <p className="adminInfoP">Total Income: {income} €</p>
                 </section>

@@ -17,6 +17,7 @@ function App() {
     if (res.reserved === true) {
       return res
     }
+    return null
   })
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import "./Reserve.css"
 
 const Reserve = ({ setCheckoutClicked, reservations, setReservations, available, viewSelected, setAvailable }) => {
     const [selection, setSelection] = useState([])
-    const [_, setOwnerEmail] = useState("")
+    const [ownerEmail, setOwnerEmail] = useState("")
     const [customerEmail, setCustomerEmail] = useState("")
     const [success, setSuccess] = useState(false)
     const [confirmClicked, setConfirmClicked] = useState(false)
@@ -14,6 +14,7 @@ const Reserve = ({ setCheckoutClicked, reservations, setReservations, available,
 
     useEffect(() => {
         calcPrice()
+        //eslint-disable-next-line
     }, [selection])
 
     const calcPrice = () => {
@@ -49,6 +50,7 @@ const Reserve = ({ setCheckoutClicked, reservations, setReservations, available,
         setSuccess(true)
         setCheckoutClicked(true)
         sendOwnerEmail(price, seatsString)
+        return ownerEmail
     }
 
     const updateAvailability = () => {
@@ -84,7 +86,7 @@ const Reserve = ({ setCheckoutClicked, reservations, setReservations, available,
                 updateAvailability()
             })
             .catch(err => console.log(err))
-        console.log(customerEmail)
+        return customerEmail
     }
 
     const sendOwnerEmail = (price, seatsString) => {
